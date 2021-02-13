@@ -1,0 +1,48 @@
+Learn how package managers support software management
+
+Software management:
+
+Linux OS's have approaches for managing software:
+	• Red Hat method:
+		○ Uses Red Hat Pkg Mgr (RPM) to manage software
+		○ Software pkgs have a .rpm file extension
+		○ YUM often used as a frontend
+		○ Red Hat, CentOS
+	• Debian method:
+		○ Uses dpkg package manager to manage software
+		○ Software packages have a .deb file extension
+		○ Advanced Package Tool (APT) is often used as a frontend
+		○ Debian, Ubuntu, Linux Mint
+	• Compile from source code:
+		○ Uses GNU Compiler Collection (GCC)
+		○ Turns human-readable code into machine-readable code
+		○ Common in Linux, but not common in Windows or macOS
+Package managers and packages
+	• Package mgrs and pkgs: Install, Update, Inventory, Uninstall
+	• Packages contain everything nthta is needed to install the software: 
+		○ Pre compiled code, Documentation, Installation instructions
+	• Analogy: .msi in Windows and MacPorts in macOS
+Repositories are servers that contain sets of pkgs, they can be:
+	• Online at the vendor site, which the vendor manages
+	• On an internal server, which your administrators manage
+	• On the local hard disk drive of the system
+	• Red Hat and Debian methods both rely on repositories of software packages
+Using the YUM pkg mgr:
+	• Install software: yum -y install <pkg name>
+		○ -y = Assume that yes is the answer to any question
+	• Update software: yum update <pkg name>
+	• Inventory installed software: yum list installed
+	• Uninstall software: yum remove <pkg name>
+	• 
+	• Vew installed software with YUM
+		○ Combine yum and grep to display specific installed pkgs
+		○ Use <command name> -version for version information about the yum pkg
+		○ 
+Compile software from source code:
+	• Because Linux programs are usually open source, you can compile the software from source code yourself:
+		1. Download software *which will usually be compressed and bundled with tar). 
+		2. Change to the directory where the decompressed software resides.
+		3. Run the ./configure command.
+		4. Run the make command (requires root permissions).
+		5. Run the make install command.
+		○ Note: In Windows and MacOS, this process is much less common because the programs are usually closed source.
