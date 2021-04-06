@@ -1,0 +1,164 @@
+Learn how to:
+	1. Explain standard input, standard output, and standard error
+	2. Describe commonly used text search and manipulation commands
+	3. Explain redirection and describe common syntax for various redirect options
+
+Using quotation marks with Bash
+	• In the Bash shell, a space is a delimiter (a separator)
+		○ Example: usermod -c Efua Owusu 
+		eowusu will produce two values:
+			§ Efua
+			§ Owusu
+	• To force Bash to recognize the space, a value is enclosed in quotation marks (" ")
+		○ Example: usermod -c "Efua Owusu"
+		eowusu will produce one value:
+			§ "Efua Owusu"
+Bash metacharacters
+Metacharacter	Decription
+> 	Output redirector
+>>	Output redirector: if file doesn't exist, it will be created; if it does exist, it will be appended
+<	Input redirector
+|	Pipe: Output of one command is input of next command (love this!!)
+* (star)	Any number of any character (wildcard)
+? (hook)	Any one character (wildcard)
+[characters]	Any matching characters between brackets (wildcard)
+`cmd`	Command substitution - uses backticks (`), not single quotation marks (' ')
+;	Chain commands together
+Note: Bash has many more metacharacters
+
+Standard input and standard output:
+• Input is normally received through the keyboard: Standard input
+• Output is normally received through the screen: Standard output (true for command results and for error messages)
+<Standard settings can be overridden by using redirectors>
+
+stdin 
+• Standard input: The file handle that your process reads to get information from you can be from the user who provides the information, or can be from a file
+• Standard output: 0<
+• Example: cat 0< myfirstscript
+	• Tells cat to take input information from myfirstscript
+
+Stdout
+• Standard output:
+	• The standardized streams of data that flow out of command line interface (CLI) commands
+	• Simplifies the use of Linux on different devices and in different programs
+	• Reduces need to adjust output depending on the device that is used
+
+stderr
+• Standard error: Your process writes error information to this file handle
+• Standard error: 2>
+• Example: find / -name "*" -print 2> / dev/null
+Discards any errors that the find command generates to keep your CLI tidy
+
+Wildcards : Bash recognizes three types of wildcard characters:
+* (Asterisk) - Matches any number of any characters => Example: rm *.txt deletes all files with a .txt extention
+? (Question mark) - Matches any one character => Example: rm 201?.txt  deletes 2017.txt, 2018.txt, 2019.txt, ….
+[ ] (Brackets) - Shell character classes that match any character between the brackets => Example ls/dev/sd[ab] matches /dev/sda and /dev/sdb
+
+Command substitution:
+• Enables a command to be nested in a command line or within another command. The result of that command is displayed or used by the rest of the command.
+• Used with the backtick ( ` ) - Older form.
+• Can be accomplished with $(command) - Newer form.
+
+Use the semicolon to chain commands: can use to run a series of commands, all written on a single line.
+
+Filter or search commands for pattern matching: the grep pattern-matching tool
+• grep: One of the commands that enable pattern matching in searches
+• String or text pattern: The content that you are searching for
+• Syntax: grep <text pattern or string> <where to search>
+• grep command matches patterns of text to file contents - Example:
+	• grep fail /var/log/secure matches entries in the /var/log/secure log file that contain fail
+• Using | grep: it is commonly used after another command, along with a pipe. Examples:
+	• ps -ef | grep sshd
+	• rpm -qa | grep samba
+	• cat /var/log/secure | grep fail
+• grep options:
+	• Option	Description
+	-i 	Ignore case
+	-r 	Recursive searches
+	-l 	List only files names
+	-n	Display line number
+	-c 	Count of matching lines
+	--files-with-matches	Names of files that contain selected lines are written to standard output
+	• grep searches a file only until a match is found, so searches are potentially less expensive
+	• Path names are listed one time per file searched
+
+The sed command:
+• A non-interactive text editor
+• Edits data based on the rules that are provided
+• Syntax: sed options file
+• Example: echo "example.com page" | sed 's/ page/ website/'
+• Example output: example.com website
+
+The awk command:
+• Define variables
+• Use string and arithmetic operators
+• Use control flow and loops
+• Generate formatted reports
+• Syntax: awk options program file
+• Options:
+	• -f fs	To specify a file separator
+	-f file	To specify a file that contains awk script
+	-v var=value	To declare a variable
+	
+The cut command:
+• Cuts sections from lines of text by character, byte position, delimiter
+• Displays that information to standard output
+• Can be used to pull relevant information out of text files and display that information to you
+• Output can be piped to a new file
+• Command options:
+	• -b 	Byte
+	-c	Column
+	-f	Field
+	-d	Delimiter
+• Example: cut -d ','-f 1 names.cvs
+
+The sort command sorts file contents in a specified order - alphabetical, reverse order, number, month:
+• sort file.txt 	Outputs lines in alphabetical order
+sort -r file.txt	Outputs lines in reverse alphabetical order
+sort -u file.txt	Removes duplicate entries (useful for log files)
+sort -M file.txt	Outputs lines in order of month
+
+The uniq command filters out repeated lines in a file. IE, to view all the unique entries in log files
+
+The tr command finds characters and replaces them with other characters. IE, to replace lowercase characters with uppercase characters:
+• tr [OPTION] SET1 [SET2]
+• tr options:
+	• -c: Complements the set of characters in a string
+	• -d: Deletes characters in the first set from the output
+	• -s: Replaces repeated characters that are listed in set1 with single occurrence
+	• -t: Truncates set1
+
+Types of redirection operators:
+> 	Sends the output of a command to a file
+< 	Receives the input of a command to a file
+| 	Runs a command and redirects its output as input to another command
+>>	Appends the output of a command to the existing contents of a file
+2>	Redirects errors that are generated by a command to a file
+2>>	Appends errors that are generated by a command to the existing contents of a file
+ALERT! By default, the > output redirector will overwrite existing file content with no warning.
+
+Redirector examples in use:
+ps -ef | grep sshd
+ls -l /etc | less
+
+Populating an info.txt file:
+uptime > info.txt
+hostname >> info.txt
+ip addr show eth0 >> info.txt
+
+The pipe redirector:
+• Output of the first command becomes the input of the second command
+• You can chain several commands by using pipes (multi-stage piping), which is referred to as a pipeline
+• The pipefail option displays the last successful command in the pipeline. Otherwise, the entire pipeline fails, but with no indication of where it failed.
+• When you use pipefail, pipeline's return status is the value of the last command to exit with a non-zero status, or zero if all command exit successfully.
+
+The tee command directs output to the screen and file. Standard output is to the screen only, the > output redirector is to a file. tee does both.
+
+The noclobber variable:
+• By default, output redirect overwrites an existing file with no warning
+• The noclobber variable can be set to prevent this behavior
+	• It is not set on most Linux distributions by default
+• Example:
+	• set -o noclobber
+	• echo "test1" > textfile.txt
+	• echo "test2" > textfile.txt
